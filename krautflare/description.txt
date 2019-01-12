@@ -1,0 +1,8 @@
+Krautflare workers are the newest breakthrough in serverless computing. And since we're taking security very seriously, we're even isolating customer workloads from each other!
+
+For our demo, we added an ancient v8 vulnerability to show that it's un-exploitable!
+See https://bugs.chromium.org/p/project-zero/issues/detail?id=1710 for details.
+Fortunately, that was the last vulnerability in v8 and our product will be secure from now on.
+
+Note:
+This challenge is hard! It's made for all the people who asked for a hard Chrome pwnable in this survey at https://twitter.com/_tsuro/status/1057676059586560000. Though the bug linked above gives you a rough walkthrough how to exploit it, you'll just have to figure out the details. I hope you paid attention in your compiler lectures :). Good luck, you have been warned!

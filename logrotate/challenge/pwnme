@@ -1,0 +1,7 @@
+/tmp/log/pwnme.log {
+	daily
+	rotate 12
+	missingok
+	notifempty
+	size 1k
+}

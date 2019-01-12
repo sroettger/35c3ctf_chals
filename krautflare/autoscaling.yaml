@@ -1,0 +1,15 @@
+apiVersion: "autoscaling/v1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "krautflare-hpa"
+  namespace: "default"
+  labels:
+    app: "krautflare"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "krautflare"
+    apiVersion: "apps/v1beta1"
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80

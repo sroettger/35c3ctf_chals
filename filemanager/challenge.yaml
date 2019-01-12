@@ -1,0 +1,35 @@
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "filemanager-bot-deployment"
+  namespace: "default"
+  labels:
+    app: "filemanager-bot"
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: "filemanager-bot"
+  template:
+    metadata:
+      labels:
+        app: "filemanager-bot"
+    spec:
+      containers:
+      - name: "filemanager-bot"
+        image: "eu.gcr.io/espr-k8s/xss-bot"
+        ports:
+        - containerPort: 1337
+        securityContext:
+          runAsUser: 1000
+          #privileged: true
+        volumeMounts:
+        - name: "cookie"
+          mountPath: "/cookie"
+          subPath: "cookie"
+          readOnly: true
+      volumes:
+      - name: "cookie"
+        secret:
+          secretName: "filemanager-cookie"
+          defaultMode: 0444

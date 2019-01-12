@@ -1,0 +1,1 @@
+../challenge/worker.js

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: krautflare-pow
+  namespace: default
+data:
+  pow: |
+    1000000

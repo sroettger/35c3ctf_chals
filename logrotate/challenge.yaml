@@ -1,0 +1,45 @@
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "logrotate-deployment"
+  namespace: "default"
+  labels:
+    app: "logrotate"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "logrotate"
+  template:
+    metadata:
+      labels:
+        app: "logrotate"
+    spec:
+      containers:
+      - name: "logrotate"
+        # needs to be eu.gcr.io/$project/$challenge-dir
+        image: "eu.gcr.io/espr-k8s/logrotate"
+        ports:
+        - containerPort: 1337
+        securityContext:
+          privileged: true
+        command:
+        volumeMounts:
+        - name: "flag"
+          mountPath: "/flag"
+          subPath: "flag"
+          readOnly: true
+        - name: "pow"
+          mountPath: "/pow"
+          subPath: "pow"
+          readOnly: true
+      volumes:
+      - name: "flag"
+        secret:
+          # must be called ${challenge-dir}-flag
+          secretName: "logrotate-flag"
+          defaultMode: 0444
+      - name: "pow"
+        configMap:
+          # must be called ${challenge-dir}-pow
+          name: "logrotate-pow"

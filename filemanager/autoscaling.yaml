@@ -1,0 +1,15 @@
+apiVersion: "autoscaling/v1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "filemanager-bot-hpa"
+  namespace: "default"
+  labels:
+    app: "filemanager-bot"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "filemanager-bot"
+    apiVersion: "apps/v1beta1"
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80

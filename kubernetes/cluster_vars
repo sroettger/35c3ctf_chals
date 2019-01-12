@@ -1,0 +1,12 @@
+PROJECT=espr-k8s
+ZONE=europe-west3-c
+CLUSTER_NAME=ctf-cluster
+
+# gcloud container get-server-config
+CLUSTER_VERSION=1.11.5-gke.4
+# gcloud compute machine-types list
+MACHINE_TYPE=n1-standard-4
+
+MIN_NODES=3
+MAX_NODES=20
+NUM_NODES=3

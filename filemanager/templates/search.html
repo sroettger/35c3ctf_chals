@@ -1,0 +1,18 @@
+{% if not files %}
+  <h1>no results</h1>
+{% else %}
+  {% for file in files %}
+  <h1>{{file.name}}</h1>
+  <pre>{{file.content}}</pre>
+  {% endfor %}
+  <script>
+    (()=>{
+      for (let pre of document.getElementsByTagName('pre')) {
+        let text = pre.innerHTML;
+        let q = '{{q}}';
+        let idx = text.indexOf(q);
+        pre.innerHTML = `${text.substr(0, idx)}<mark>${q}</mark>${text.substr(idx+q.length)}`;
+      }
+    })();
+  </script>
+{% endif %}

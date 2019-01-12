@@ -1,0 +1,9 @@
+{
+  "name": "session",
+  "value": "mIMIQ44duhqkGskio3r3",
+  "domain": "filemanager.appspot.com",
+  "url": "https://filemanager.appspot.com/",
+  "path": "/",
+  "httpOnly": true,
+  "secure": true
+}

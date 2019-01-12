@@ -1,0 +1,49 @@
+<h1>{{user}}'s files:</h1>
+<ul id='file-list'>
+{% for filename in filenames %}
+<li>
+  <a href="/read?filename={{filename}}">{{filename}}</a>
+</li>
+{% endfor %}
+</ul>
+<h2>Search file:</h2>
+<form id="search-form" action='/search'>
+<input type='text' name='q' placeholder='query'/>
+<button>Search</button>
+</form>
+
+<h2>Create a new file:</h2>
+<form id="create-form">
+<input id='filename' type='text' name='filename' placeholder='filename'/>
+<input type='text' name='content' placeholder='content'/>
+<button id='submit-button'>Create</button>
+</form>
+
+<script>
+function doSubmit(e) {
+  e.preventDefault();
+  document.getElementById('submit-button').disabled = true;
+  let filename = document.getElementById('filename').value;
+  const data = new FormData(e.target);
+  fetch('/create', {method: 'POST', body: data, headers: {XSRF: '1'}}).then(r=>{
+    document.getElementById('submit-button').disabled = false;
+    if (r.ok) {
+      let li = document.createElement('li');
+      let a = document.createElement('a');
+      li.appendChild(a);
+      a.innerText = filename;
+      a.href = `/read?filename=${filename}`;
+      document.getElementById('file-list').appendChild(li);
+    } else {
+      console.log('error creating file');
+    }
+  }).catch((e)=>{
+    console.log('error creating file '+e);
+    document.getElementById('submit-button').disabled = false;
+  });
+  return false;
+}
+
+var form = document.getElementById('create-form');
+form.addEventListener("submit", doSubmit);
+</script>

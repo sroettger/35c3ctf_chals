@@ -1,0 +1,3 @@
+Here is another linux user namespaces challenge by popular demand.
+
+For security reasons, this sandbox needs to run as root. If you can break out of the sandbox, there's a flag in /, but even then you might not be able to read it :).

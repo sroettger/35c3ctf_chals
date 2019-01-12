@@ -1,0 +1,3 @@
+/usr/lib/mime/packages mime-support/noawait
+/usr/share/applications mime-support/noawait
+/usr/share/slib guile-2.0-libs:amd64

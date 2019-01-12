@@ -1,0 +1,44 @@
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "namespaces-deployment"
+  namespace: "default"
+  labels:
+    app: "namespaces"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "namespaces"
+  template:
+    metadata:
+      labels:
+        app: "namespaces"
+    spec:
+      containers:
+      - name: "namespaces"
+        # needs to be eu.gcr.io/$project/$challenge-dir
+        image: "eu.gcr.io/espr-k8s/namespaces"
+        ports:
+        - containerPort: 1337
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: "flag"
+          mountPath: "/flag"
+          subPath: "flag"
+          readOnly: true
+        - name: "pow"
+          mountPath: "/pow"
+          subPath: "pow"
+          readOnly: true
+      volumes:
+      - name: "flag"
+        secret:
+          # must be called ${challenge-dir}-flag
+          secretName: "namespaces-flag"
+          defaultMode: 0400
+      - name: "pow"
+        configMap:
+          # must be called ${challenge-dir}-pow
+          name: "namespaces-pow"

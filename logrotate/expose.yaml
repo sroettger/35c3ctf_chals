@@ -1,0 +1,14 @@
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "logrotate-lb-service"
+spec:
+  type: "LoadBalancer"
+  # needs to be a premium IP
+  loadBalancerIP: "35.242.226.147"
+  selector:
+    app: "logrotate"
+  ports:
+  - protocol: "TCP"
+    port: 1
+    targetPort: 1337

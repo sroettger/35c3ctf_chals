@@ -1,0 +1,15 @@
+apiVersion: "autoscaling/v1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "namespaces-hpa"
+  namespace: "default"
+  labels:
+    app: "namespaces"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "namespaces"
+    apiVersion: "apps/v1beta1"
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
