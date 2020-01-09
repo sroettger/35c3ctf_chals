@@ -13,6 +13,10 @@
 1. Run `./kill_challenge.sh challenge-skeleton` - this kills the challenge.
 1. Run `nc $theip 1` - this will not work anymore.
 
+# Future Work
+ - Automate the setup of `cluster_vars`, and have a command that generates `challenge.yaml`.
+ - Cleanup the proof of work to point somewhere that isn't the ccc website.
+
 # Errors
  - If you forget to update the kubernetes version in `cluster_vars`, you get an error saying that it's not supported.
  - If you forget to update the project name in `challenge-skeleton/challenge.yaml`, you get an error referencing `espr-k8s`
