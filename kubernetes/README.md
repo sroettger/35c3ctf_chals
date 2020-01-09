@@ -13,9 +13,14 @@
 1. Run `./kill_challenge.sh challenge-skeleton` - this kills the challenge.
 1. Run `nc $theip 1` - this will not work anymore.
 
-# Future Work
+## Future Work
  - Automate the setup of `cluster_vars`, and have a command that generates `challenge.yaml`.
  - Cleanup the proof of work to point somewhere that isn't the ccc website.
+
+## Budgetting
+ - Calculate the resources and the amount of budget assuming 100% consumption.
+ - Add a budget alert at 25% budget, 50% budget, 75% budget and 100% of budget.
+ - Plan for the CTF to last 50% longer than it will, increase proof of work on challenges using too much CPU.
 
 # Errors
  - If you forget to update the kubernetes version in `cluster_vars`, you get an error saying that it's not supported.
