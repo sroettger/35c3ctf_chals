@@ -3,7 +3,7 @@
 This repo contains both my challenges from the 35C3 CTF as well as my infrastructure scripts to deploy on kubernetes.
 
 ## Challenges
-* filemanager: a web challenge in which you had to abuse Chrome's XSS Auditor as an xs-search side channel
+* filemanager: a web challenge in which you had to abuse Chrome's XSS Auditor as an [xs-search](https://github.com/xsleaks/xsleaks/wiki/Browser-Side-Channels) side channel
 * krautflare: a Chrome exploitation challenge (v8) based on [this bug](https://bugs.chromium.org/p/project-zero/issues/detail?id=1710)
 * logrotate: a linux file race in a real tool using an insecure config
 * namespaces: a sandbox challenges based on Linux user namespaces
