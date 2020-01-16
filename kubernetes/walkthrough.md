@@ -4,14 +4,17 @@
 
 # Step 1 - Enable everything
 1. Enable [compute + billing](https://console.developers.google.com/apis/api/compute.googleapis.com/overview) in GCP.
+<walkthrough-project-setup>pjs</walkthrough-project-setup>
+<walkthrough-project-billing-setup>set</walkthrough-project-billing-setup>
+<walkthrough-devshell-precreate>pre</walkthrough-devshell-precreate>
+<walkthrough-editor-open-file filePath="kubernetes/">open</walkthrough-editor-open-file>
 
 # Step 2 - Configure your project name
-1. Modify `cluster_vars` to point to the right GCP project name.
-<walkthrough-editor-open-file filePath="kubernetes/cluster_vars"></walkthrough-editor-open-file>
+1. Modify the `cluster_vars` file and edit the `PROJECT` variable to point to the right GCP project name.
+<walkthrough-editor-select-regex filePath="kubernetes/cluster_vars" regex="espr-k8s">sel</walkthrough-editor-select-regex>
 
 # Step 3 - Open Cloud Shell
-<walkthrough-devshell-precreate></walkthrough-devshell-precreate>
-1. Open Cloud Shell <walkthrough-open-cloud-shell-button></walkthrough-open-cloud-shell-button>.
+1. Open Cloud Shell <walkthrough-open-cloud-shell-button>ocs</walkthrough-open-cloud-shell-button>.
 1. Run `./create_cluster.sh` - this only needs to be done once per CTF.
 1. Run `. create_challenge.sh demo-challenge` - this should be done for every challenge once.
 1. Run `./create_image.sh demo-challenge` - this only needs to be done if you want to build the challenge, but not to deploy it.
