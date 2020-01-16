@@ -3,11 +3,11 @@
 [![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.png)](https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/sirdarckcat/35c3ctf_chals&tutorial=kubernetes/walkthrough.md)
 
 # Step 1 - Enable everything
-1. Go to https://console.developers.google.com/apis/api/compute.googleapis.com/overview and enable compute + billing.
+1. Enable [compute + billing](https://console.developers.google.com/apis/api/compute.googleapis.com/overview) in GCP.
 
 # Step 2 - Configure your project name
 1. Modify `cluster_vars` to point to the right GCP project name.
-<walkthrough-editor-open-file filePath="cluster_vars"></walkthrough-editor-open-file>
+<walkthrough-editor-open-file filePath="kubernetes/cluster_vars"></walkthrough-editor-open-file>
 
 # Step 3 - Open Cloud Shell
 <walkthrough-devshell-precreate></walkthrough-devshell-precreate>
