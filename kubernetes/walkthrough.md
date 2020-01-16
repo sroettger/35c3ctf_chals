@@ -27,18 +27,36 @@ Run the following command:
 ```
 This only needs to be done once per CTF. A "cluster" is essentially a group of VMs with a "master" that defines what to run there.
 
+This can take a while, you can expect to see `Creating cluster ... in ... Cluster is being health-checked...` and in a minute or so, you'll get a message telling you it's done.
+
+While you wait, here's how the infrastructure works:
+1. The CTF challenges will run inside "nsjail" (a security sandbox).
+1. The contents of the nsjail sandbox will be configured in a docker container.
+1. The container will be deployed using Kubernetes in a group of VMs.
+1. If the VMs consume too much CPU, Kubernetes automatically deploy more VMs.
+1. If the VMs consume too little CPU, Kubernetess will shut down some VMs.
+1. Some very expensive challenges will probably be allocated in the same VMs as less busy challenges.
+
+This all ensures the availability of the challenges, and saves some computing resources.
+
+Anyway, hopefully by now the cluster is already created and we can continue with the walkthrough.
+
 # Step 2 - Create a challenge
 Now that we have a cluster setup, we need to create a challenge.
 
 In this walkthrough, you'll learn how to create a challenge called "demo-challenge", build the docker image, deploy it to the cluster, and expose it to the internet.
 
+You need the cluster to be created before you continue, otherwise the following commands wont work.
+
+Click next to continue if your cluster is already created.
+
 ## First, call create_challenge.sh to copy the skeleton
-Run the following command, after this walkthrough, you should do this for every challenge.
+Run the following command to create a challenged called "demo-challenge"
 ```
 . create_challenge.sh demo-challenge
 ```
 
-This will create a directory called demo-challenge, and if you look inside it, you'll find out the challenge details and configuration.
+This will create a directory called demo-challenge, and if you look inside it (check files/chal for example), you'll find out the challenge details and configuration. The file in files/chal is executed every time there's a TCP connection on port 1. This demo challenge just runs bash, but a real challenge would instead expose a harder challenge that doesn't just give out a shell.
 
 In the next step you'll find out how to create a docker image with the newly created challenge.
 
@@ -50,11 +68,7 @@ Run the following command this only needs to be done if you want to build the ch
 
 This creates the "image", which means the docker image. Depending on how complex your challenge will be, this can be very fast or take forever.
 
-After you have created the image, you can run it locally, or just deploy it to your cluster.
-
-## Then, deploy it
-
-Run the following command, this builds and deploys the challenge, **but doesn't expose it to the internet.**
+Now to deploy it, run the following command, this builds and deploys the challenge, **but doesn't expose it to the internet.**
 
 ```
 ./deploy.sh demo-challenge
@@ -69,13 +83,16 @@ Run the following command, this exposes the challenge to the internet **(must be
 ./expose.sh demo-challenge
 ```
 
-This should only be done once the challenge is ready to be released to the public.
+This step might take a minute, it will reserve an IP address for your challenge, and redirect traffic to your docker containers when someone connects to it. Wait for it to finish before continuing.
+
+While you wait, you probably want to know:
+ * This should only be done once the challenge is ready to be released to the public, don't do it too early or the challenge will leak.
+ * The ports exposed by the challenge are configured by nsjail (see nsjail.cfg) and expose.yaml. Make sure they are kept in sync.
+   * In expose.yaml, targetPort is the port that nsjail is listening on. port is the port that the external IP will listen on.
 
 # Step 3 - Test the challenge
 
 Now we have a challenge up and running, and we need to test it to make sure it works. In this section of the walkthrough you'll connect to the challenge, add and configure a proof of work, and update the running task.
-
-## You can just connect to the challenge now
 
 Run the following command, this connects you to the challenge.
 
@@ -84,6 +101,15 @@ nc $(cat demo-challenge/ip) 1
 ```
 
 If all went well, you should see a shell. Now, let's add a proof of work to the task to avoid people abusing it too much.
+
+Debugging failures here is easy, here are some things you could do if this didn't work:
+1. Go to [Services in GKE](https://console.cloud.google.com/kubernetes/discovery)
+1. Select demo-challenge-lb-service
+1. Under *Stackdriver Logs* click on demo-challenge-deployment
+
+If there were any errors deploying the challenge, they should be visible here.
+
+In the next step we'll see how to edit the challenge, add a proof of work, and push an update.
 
 ## To add a proof of work, just edit pow.yaml
 To add a proof of work, you just need to edit the configuration of the challenge.
@@ -96,14 +122,14 @@ Once that's done,  run
 ```
 this enables the proof of work.
 
-Note that this is a very weak proof of work (strength of 1), you probably want to set it to 15, 20, or more for actually asking people to do some work.
+Note that this is a very weak proof of work (strength of 1), for it to be useful in a real CTF, you probably want to set it to 15, 20, or more for actually asking people to do some work. That said, for this walkthrough, let's take it easy, and leave it at 1.
 
 Once the challenge is updated, just run:
 ```
 nc $(cat demo-challenge/ip) 1
 ```
 
-This connects you to the challenge with a proof of work in front.
+This connects you to the challenge with a proof of work in front. Just type 1 to bypass the proof of work (told you a difficulty of 1 wasn't gonna cut it).
 
 And that's it, now that you saw how to push a challenge and update it, let's clean up to save some resources.
 
@@ -119,3 +145,7 @@ You can test this worked by running:
 ```
 nc $(cat demo-challenge/ip) 1
 ```
+
+If all worked, that won't connect and it'll give you an error.
+
+Thanks for doing the walkthrough, and good luck on your CTF!
