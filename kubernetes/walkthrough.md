@@ -15,6 +15,11 @@ So, <walkthrough-editor-select-regex filePath="35c3ctf_chals/kubernetes/cluster_
 {{project-id}}
 ```
 
+Also, make sure you are on the right directory!
+```
+cd kubernetes
+```
+
 ## And finally, create the cluster
 Run the following command:
 ```
